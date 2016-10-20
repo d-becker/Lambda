@@ -1,0 +1,22 @@
+Terminals
+
+LAMBDA = "\"
+DOT = "."
+OPEN_PAREN = "("
+CLOSE_PAREN = ")"
+IDENTIFIER = "[_a-zA-Z][_a-zA-Z0-9]*"
+WS = "[ \t\v]"
+EPSILON = ""
+
+Non-terminals
+
+expression -> application
+expression -> function
+expression -> IDENTIFIER
+
+application -> OPEN_PAREN possible_ws expression WS expression possible_ws CLOSE_PAREN
+
+function -> LAMBDA possible_ws IDENTIFIER possible_ws DOT possible_ws expression
+
+possible_ws -> WS
+possible_ws -> EPSILON
