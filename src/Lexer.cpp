@@ -40,19 +40,26 @@ struct Lexer::CheckToken {
 
 Lexer::Lexer(std::istream *input)
 	: m_input(input),
-	  m_line(1),
+	  m_line(0),
 	  m_column(0),
 	  m_tokens{}
 {
+	if (m_input == nullptr) {
+		throw LexerException(
+			"The input stream pointer must not be nullptr.");
+	}
 }
 
 LinkedList<Token> Lexer::tokenize() {
 	std::string line;
 
-	while (getline(*m_input, line)) {
-		tokenize_line(line);		
+	while (getline(*m_input, line)) {		
 		++m_line;
+		tokenize_line(line);
 	}
+
+	m_tokens.push_back(Token(Token::END_OF_INPUT,
+				 Token::Position(m_line, m_column), ""));
 
 	return m_tokens;
 }

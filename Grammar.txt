@@ -10,9 +10,9 @@ EPSILON = ""
 
 Non-terminals
 
-expression -> application
-expression -> function
 expression -> IDENTIFIER
+expression -> function
+expression -> application
 
 application -> OPEN_PAREN possible_ws expression WS expression possible_ws CLOSE_PAREN
 

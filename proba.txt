@@ -1,2 +1,1 @@
-\alma.x \x.\y.x
-\z.z
+(\alma.x \x.\y.x) 

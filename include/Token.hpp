@@ -14,7 +14,8 @@ struct Token {
 		CLOSE_PAREN,
 		IDENTIFIER,
 		APPLICATION,
-		WS
+		WS,
+		END_OF_INPUT
 	};
 
 	struct Position {
