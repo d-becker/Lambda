@@ -13,9 +13,10 @@ public:
 	Subs(Subs&& other);
 	virtual ~Subs();
 	
-	const std::string& get_label() const;
+	const std::string& get_variable_name() const;
 
 	virtual void reduce() override;
+	virtual Vector<std::string> free_variables() const override;
 	virtual std::string to_string() const override;
 	virtual Node *copy() const override;
 private:

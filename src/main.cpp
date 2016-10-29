@@ -15,6 +15,15 @@ int main() {
 
 	cout << "The tree: " << endl;
 	cout << tree->to_string() << "." << endl;
+
+	cout << "Free variables:" << endl;
+	Vector<string> free_vars = tree->free_variables();
+
+	for (std::string var : free_vars) {
+		cout << var << ", ";
+	}
+
+	cout << endl;
 	
 	return 0;
 }

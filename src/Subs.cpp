@@ -19,11 +19,15 @@ Subs::~Subs() {
 	
 }
 
-const std::string& Subs::get_label() const {
+const std::string& Subs::get_variable_name() const {
 	return m_label;
 }
 
 void Subs::reduce() {
+}
+
+Vector<std::string> Subs::free_variables() const {
+	return {m_label};
 }
 
 std::string Subs::to_string() const {
