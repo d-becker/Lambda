@@ -17,7 +17,7 @@ public:
 	void reduce();
 	std::string to_string() const;
 private:
-	std::unique_ptr<Node> m_node;
+	std::shared_ptr<const Node> m_node;
 };
 
 #endif // LAMBDA_HPP

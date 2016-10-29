@@ -9,16 +9,16 @@ lambda::lambda(std::string source)
 {
 	std::stringstream s(source);
 	Parser parser(&s);
-	m_node = std::unique_ptr<Node>(parser.parse());
+	m_node = parser.parse();
 }
 
 lambda::lambda(const lambda& other)
-	: m_node(other.m_node ? other.m_node->copy() : nullptr)
+	: m_node(other.m_node)
 {
 }
 
 lambda::lambda(lambda&& other)
-	: m_node(std::move(other.m_node))
+	: m_node(other.m_node)
 {
 }
 

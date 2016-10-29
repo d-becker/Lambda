@@ -15,10 +15,9 @@ public:
 	
 	const std::string& get_variable_name() const;
 
-	virtual void reduce() override;
+	virtual std::shared_ptr<const Node> reduce() const override;
 	virtual Vector<std::string> free_variables() const override;
 	virtual std::string to_string() const override;
-	virtual Node *copy() const override;
 private:
 	const std::string m_label;
 };

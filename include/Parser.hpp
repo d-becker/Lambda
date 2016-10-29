@@ -13,7 +13,7 @@ class Parser {
 public:
 	Parser(std::istream *input);
 
-	Node *parse();
+        std::shared_ptr<const Node> parse();
 
 private:
 	const Token& get_look_ahead() const;
@@ -21,9 +21,9 @@ private:
 	void assert_next_token_type(Token::Type type,
 				    std::string expectation) const;
 	
-	Node *parse_expression();
-	Node *parse_application();
-	Node *parse_function();
+	std::shared_ptr<const Node> parse_expression();
+        std::shared_ptr<const Node> parse_application();
+        std::shared_ptr<const Node> parse_function();
 	void parse_possible_ws();
 	
 	LinkedList<Token> m_tokens;

@@ -23,7 +23,7 @@ const std::string& Subs::get_variable_name() const {
 	return m_label;
 }
 
-void Subs::reduce() {
+std::shared_ptr<const Node> Subs::reduce() const {
 }
 
 Vector<std::string> Subs::free_variables() const {
@@ -32,8 +32,4 @@ Vector<std::string> Subs::free_variables() const {
 
 std::string Subs::to_string() const {
 	return m_label;
-}
-
-Node *Subs::copy() const {
-	return new Subs(*this);	
 }

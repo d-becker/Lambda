@@ -11,7 +11,7 @@ int main() {
 	std::ifstream file("proba.txt");
 	Parser p(&file);
 
-        Node *tree = p.parse();
+        std::shared_ptr<const Node> tree = p.parse();
 
 	cout << "The tree: " << endl;
 	cout << tree->to_string() << "." << endl;

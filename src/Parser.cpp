@@ -13,8 +13,8 @@ Parser::Parser(std::istream *input)
 	
 }
 
-Node *Parser::parse() {
-	Node *res = parse_expression();
+std::shared_ptr<const Node> Parser::parse() {
+        std::shared_ptr<const Node> res = parse_expression();
 
 	assert_next_token_type(Token::END_OF_INPUT, "expected end of input");
 
@@ -48,13 +48,13 @@ void Parser::assert_next_token_type(Token::Type type,
 	}
 }
 
-Node *Parser::parse_expression() {
+std::shared_ptr<const Node> Parser::parse_expression() {
 	const Token& look_ahead = get_look_ahead();
 
 	// expression -> IDENTIFIER
 	if (look_ahead.type == Token::IDENTIFIER) {
 		advance();
-		return new Subs(look_ahead.match);
+		return std::make_shared<Subs>(look_ahead.match);
 	}
 
 	// expression -> function
@@ -75,7 +75,7 @@ Node *Parser::parse_expression() {
 	throw ParserException(s.str());
 }
 
-Node *Parser::parse_application() {
+std::shared_ptr<const Node> Parser::parse_application() {
 	//application -> OPEN_PAREN possible_ws expression WS expression
 	//possible_ws CLOSE_PAREN
 	assert_next_token_type(Token::OPEN_PAREN,
@@ -84,13 +84,13 @@ Node *Parser::parse_application() {
         advance(); // consuming the OPEN_PAREN
 	parse_possible_ws();
 
-	Node *left_term = parse_expression();
+	std::shared_ptr<const Node> left_term = parse_expression();
 
 	assert_next_token_type(Token::WS, "expected whitespace");
 
 	advance(); // consuming the WS
 	
-	Node *right_term = parse_expression();
+	std::shared_ptr<const Node> right_term = parse_expression();
 	parse_possible_ws();
 
 	assert_next_token_type(Token::CLOSE_PAREN,
@@ -98,10 +98,10 @@ Node *Parser::parse_application() {
 	
 	advance(); // consuming the CLOSE_PAREN
 
-	return new Appl(left_term, right_term);
+	return std::make_shared<Appl>(left_term, right_term);
 }
 
-Node *Parser::parse_function() {
+std::shared_ptr<const Node> Parser::parse_function() {
 	// LAMBDA possible_ws IDENTIFIER possible_ws DOT possible_ws expression
 	assert_next_token_type(Token::LAMBDA, "expected a lambda");
 	advance();
@@ -120,9 +120,9 @@ Node *Parser::parse_function() {
 
         parse_possible_ws();
 
-	Node *function_body = parse_expression();
+        std::shared_ptr<const Node> function_body = parse_expression();
 
-	return new Func(param_string, function_body);
+	return std::make_shared<Func>(param_string, function_body);
 }
 
 void Parser::parse_possible_ws() {
