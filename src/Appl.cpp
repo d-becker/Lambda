@@ -9,18 +9,6 @@ Appl::Appl(std::shared_ptr<const Node> left_child,
 {
 }
 
-Appl::Appl(const Appl& other)
-	: m_left_child(other.m_left_child),
-	  m_right_child(other.m_right_child)
-{
-}
-
-Appl::Appl(Appl&& other)
-	: m_left_child(other.m_left_child),
-	  m_right_child(other.m_right_child)
-{
-}
-
 Appl::~Appl()
 {
 }

@@ -10,11 +10,17 @@
 
 class Appl : public Node {
 public:
-	Appl(std::shared_ptr<const Node> left_child,
-	     std::shared_ptr<const Node> right_child);
-	Appl(const Appl& other);
-	Appl(Appl&& other);
+	template <class... U>
+	static std::shared_ptr<const Appl> create(U&&... u) {
+		Appl *raw_res = new Appl(std::forward<U>(u)...);
+		std::shared_ptr<Appl> res(raw_res);
+		raw_res->m_weak_this = res;
 
+		return res;
+	}
+	
+
+	Appl(const Appl& other) = delete;
 	~Appl();
 	
 	std::shared_ptr<const Node> get_left_child() const;
@@ -24,8 +30,13 @@ public:
 	virtual Vector<std::string> free_variables() const override;
 	virtual std::string to_string() const override;
 private:
+	Appl(std::shared_ptr<const Node> left_child,
+	     std::shared_ptr<const Node> right_child);
+	
 	std::shared_ptr<const Node> m_left_child;
 	std::shared_ptr<const Node> m_right_child;
+
+	std::weak_ptr<const Appl> m_weak_this;
 };
 
 #endif // APPL_HPP

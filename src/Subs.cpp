@@ -1,18 +1,7 @@
 #include "Subs.hpp"
-
 Subs::Subs(std::string label)
 	: m_label(label)
-{
-}
-
-Subs::Subs(const Subs& other)
-	: m_label(other.m_label)
-{
-}
-
-Subs::Subs(Subs&& other)
-	: m_label(other.m_label)
-{
+{	
 }
 
 Subs::~Subs() {
@@ -24,6 +13,7 @@ const std::string& Subs::get_variable_name() const {
 }
 
 std::shared_ptr<const Node> Subs::reduce() const {
+	return m_weak_this.lock();
 }
 
 Vector<std::string> Subs::free_variables() const {

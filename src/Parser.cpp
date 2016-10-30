@@ -54,7 +54,7 @@ std::shared_ptr<const Node> Parser::parse_expression() {
 	// expression -> IDENTIFIER
 	if (look_ahead.type == Token::IDENTIFIER) {
 		advance();
-		return std::make_shared<Subs>(look_ahead.match);
+		return Subs::create(look_ahead.match);
 	}
 
 	// expression -> function
@@ -98,7 +98,7 @@ std::shared_ptr<const Node> Parser::parse_application() {
 	
 	advance(); // consuming the CLOSE_PAREN
 
-	return std::make_shared<Appl>(left_term, right_term);
+	return Appl::create(left_term, right_term);
 }
 
 std::shared_ptr<const Node> Parser::parse_function() {
@@ -122,7 +122,7 @@ std::shared_ptr<const Node> Parser::parse_function() {
 
         std::shared_ptr<const Node> function_body = parse_expression();
 
-	return std::make_shared<Func>(param_string, function_body);
+	return Func::create(param_string, function_body);
 }
 
 void Parser::parse_possible_ws() {

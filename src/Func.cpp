@@ -10,12 +10,6 @@ Func::Func(std::string param_name,
 {
 }
 
-Func::Func(const Func& other)
-	: m_param_name(other.m_param_name),
-	  m_function_body(other.m_function_body)
-{
-}
-
 Func::~Func()
 {
 }
