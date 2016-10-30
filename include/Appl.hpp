@@ -26,8 +26,18 @@ public:
 	std::shared_ptr<const Node> get_left_child() const;
 	std::shared_ptr<const Node> get_right_child() const;
 
+	virtual std::shared_ptr<const Node>
+	substitute(const std::string& var_name,
+		   std::shared_ptr<const Node> expr) const override;
+	
+	virtual std::shared_ptr<const Node>
+	raw_substitute(const std::string& orig_var_name,
+		       std::shared_ptr<const Node> expr) const override;
 	virtual std::shared_ptr<const Node> reduce() const override;
-	virtual Vector<std::string> free_variables() const override;
+
+	virtual std::unordered_set<std::string> abstractions() const override;
+	virtual std::unordered_set<std::string> variables() const override;
+	virtual std::unordered_set<std::string> free_variables() const override;
 	virtual std::string to_string() const override;
 private:
 	Appl(std::shared_ptr<const Node> left_child,

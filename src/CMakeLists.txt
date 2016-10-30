@@ -5,9 +5,12 @@ set(SRC_FILES
 	Func.cpp
 	lambda.cpp
 	Lexer.cpp
-	main.cpp
 	Parser.cpp
 	Subs.cpp
    )
 
-add_executable(lambda "main.cpp" ${SRC_FILES})
+set(SRC_MAIN main.cpp)
+set(SRC_TEST_MAIN test_main.cpp)
+
+add_executable(lambda ${SRC_MAIN} ${SRC_FILES})
+add_executable(test_lambda ${SRC_TEST_MAIN} ${SRC_FILES})

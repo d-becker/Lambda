@@ -113,12 +113,12 @@ int main() {
         ASSERT_EQ(lambda("\\x.\\x.x").to_string(), "\\a.\\b.b");
         ASSERT_EQ(lambda("\\b.\\b.\\a.(a b)").to_string(), "\\a.\\b.\\c.(c b)");
     TESTCASE_END;
-    TESTCASE_START("Proper evaluation order", 0, false)
+    TESTCASE_START("Proper evaluation order", 0, true)
         lambda l("((\\x.\\y.x \\a.a) (\\c.(c c) \\b.(b b)))");
         l.reduce();
         ASSERT_EQ(l.to_string(), "\\a.a");
     TESTCASE_END;
-    TESTCASE_START("Boolean logic (grand integrated test)", 0, false)
+    TESTCASE_START("Boolean logic (grand integrated test)", 0, true)
         string True = "\\a.\\b.a";
         string False ="\\a.\\b.b";
         string If = "\\a.\\b.\\c.((c a) b)";

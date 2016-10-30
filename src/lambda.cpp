@@ -26,7 +26,7 @@ lambda::~lambda() {
 }
 
 void lambda::reduce() {
-	// TODO
+	m_node = m_node->reduce();
 }
 
 std::string lambda::to_string() const {
