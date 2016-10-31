@@ -53,8 +53,10 @@ std::shared_ptr<const Node> Parser::parse_expression() {
 
 	// expression -> IDENTIFIER
 	if (look_ahead.type == Token::IDENTIFIER) {
+		std::shared_ptr<const Node> res
+			= Subs::create(look_ahead.match);
 		advance();
-		return Subs::create(look_ahead.match);
+		return res;
 	}
 
 	// expression -> function

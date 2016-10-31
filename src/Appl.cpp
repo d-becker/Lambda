@@ -54,11 +54,11 @@ Appl::raw_substitute(const std::string& orig_var_name,
 }
 		
 std::shared_ptr<const Node> Appl::reduce(long long& count) const {
+	--count;
+	
         if (count < 0) {
 		return m_weak_this.lock();
 	}
-
-	--count;
 	
 	// If we are a redex
 	std::shared_ptr<const Func> func = m_left_child->as_function();

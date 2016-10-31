@@ -5,10 +5,20 @@
 #include <string>
 #include <unordered_set>
 
-#include "LambdaException.hpp"
-
 class Func;
 
+/**
+ * An interface that represents a lambda expression. Concrete classes that
+ * implement this interface are \c Subs, \c Func and \c Appl. Objects of these
+ * types are immutable and reference-counted - they should only be accessed
+ * through \c std::shared_ptr's. This way the expressions can be manipulated
+ * in a way similar to functional programming languages.
+ *
+ * To make this possible, the constructors of the classes are private and new
+ * objects can be created using the static \c create method of the approproate
+ * class, which returns an std::shared_ptr. Every object has a std::weak_ptr that
+ * points to it so that it can always generate a valid std::shared_ptr to itself.
+ */
 class Node {
 public:
 	virtual ~Node() {}
@@ -38,16 +48,17 @@ public:
 	 *
 	 * The maximal number of steps can be controlled with the parameter
 	 * \a count. Every call to this function (not only effective beta
-	 * reductions) decrements \a count by one. When \a count becomes
+	 * reductions) decrements \a count by one. When \a count becomes zero or
 	 * negative, no further reductions are performed and the expression is
 	 * returned as computed so far. Checking whether a reduction was complete
 	 * can be done by checking the variable passed to this function after the
 	 * call: a negative value means the reduction was not complete.
 	 *
-	 * \param count The maximal number of steps minus one that will be
-	 *        performed during the reduction.
+	 * \param count The maximal number of steps that will be performed
+	 *        during the reduction.
 	 *
-	 * \return A new lambda expression node the result of reducing this expression.
+	 * \return A new lambda expression node the result of reducing
+	 *         this expression.
 	 */
 	virtual std::shared_ptr<const Node> reduce(long long& count) const = 0;
 

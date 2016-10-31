@@ -78,11 +78,11 @@ Func::raw_substitute(const std::string& orig_var_name,
 }
 
 std::shared_ptr<const Node> Func::reduce(long long& count) const {
+	--count;
+	
         if (count < 0) {
 		return m_weak_this.lock();
 	}
-
-	--count;
 	
 	std::shared_ptr<const Node> f_body_reduct = m_function_body->reduce(count);
 
