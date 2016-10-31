@@ -53,22 +53,28 @@ Appl::raw_substitute(const std::string& orig_var_name,
 	}
 }
 		
-std::shared_ptr<const Node> Appl::reduce() const {
+std::shared_ptr<const Node> Appl::reduce(long long& count) const {
+        if (count < 0) {
+		return m_weak_this.lock();
+	}
+
+	--count;
+	
 	// If we are a redex
-	if (m_left_child->is_function()) {
-		// TODO - refactor to avoid casting
-		const Func* func = static_cast<const Func*>(m_left_child.get());
+	std::shared_ptr<const Func> func = m_left_child->as_function();
+	if (func != nullptr) {
 		std::string param_name = func->get_param_name();
-		std::shared_ptr<const Node> sub = func->get_function_body()->substitute(param_name, m_right_child);
-		return sub->reduce();
+		std::shared_ptr<const Node> sub = func->get_function_body()
+			->substitute(param_name, m_right_child);
+		return sub->reduce(count);
 	}
 
 	// If we are not a redex, first reduce the left child.
-	std::shared_ptr<const Node> left_reduct = m_left_child->reduce();
+	std::shared_ptr<const Node> left_reduct = m_left_child->reduce(count);
 	if (m_left_child == left_reduct) {
 		// It is not possible to reduce this \a Appl,
 		// reduce the right side.
-		std::shared_ptr<const Node> right_reduct = m_right_child->reduce();
+		std::shared_ptr<const Node> right_reduct = m_right_child->reduce(count);
 		if (m_right_child == right_reduct) {
 			return m_weak_this.lock();
 		} else {
@@ -77,7 +83,7 @@ std::shared_ptr<const Node> Appl::reduce() const {
 	} else {
 		// The left child has been reduced, start from the beginning.
 		std::shared_ptr<const Node> new_application = Appl::create(left_reduct, m_right_child);
-		return new_application->reduce();
+		return new_application->reduce(count);
 	}
 }
 

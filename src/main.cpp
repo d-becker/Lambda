@@ -22,7 +22,8 @@ int main() {
 	cout << "The tree: " << endl;
 	cout << tree->to_string() << "." << endl;
 
-	std::shared_ptr<const Node> reduced_tree = tree->reduce();
+	long long count = 100;
+	std::shared_ptr<const Node> reduced_tree = tree->reduce(count);
 	cout << "The reduced tree: " << reduced_tree->to_string() << "." << endl;
 
 	/*cout << "Free variables:" << endl;

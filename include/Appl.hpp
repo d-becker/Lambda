@@ -22,6 +22,7 @@ public:
 
 	Appl(const Appl& other) = delete;
 	~Appl();
+
 	
 	std::shared_ptr<const Node> get_left_child() const;
 	std::shared_ptr<const Node> get_right_child() const;
@@ -33,7 +34,7 @@ public:
 	virtual std::shared_ptr<const Node>
 	raw_substitute(const std::string& orig_var_name,
 		       std::shared_ptr<const Node> expr) const override;
-	virtual std::shared_ptr<const Node> reduce() const override;
+	virtual std::shared_ptr<const Node> reduce(long long& count) const override;
 
 	virtual std::unordered_set<std::string> abstractions() const override;
 	virtual std::unordered_set<std::string> variables() const override;

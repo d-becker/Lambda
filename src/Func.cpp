@@ -29,7 +29,7 @@ Func::alpha_convert(std::string new_var_name_hint,
 		    std::shared_ptr<const Node> other) const {
 	std::string new_name = get_new_alpha_name(new_var_name_hint, other);
 	std::shared_ptr<const Node> function_body
-		= m_function_body->raw_substitute(m_param_name,
+		= m_function_body->substitute(m_param_name,
 						  Subs::create(new_name));
 
 	return Func::create(new_name, function_body);
@@ -77,8 +77,14 @@ Func::raw_substitute(const std::string& orig_var_name,
 	}
 }
 
-std::shared_ptr<const Node> Func::reduce() const {
-	std::shared_ptr<const Node> f_body_reduct = m_function_body->reduce();
+std::shared_ptr<const Node> Func::reduce(long long& count) const {
+        if (count < 0) {
+		return m_weak_this.lock();
+	}
+
+	--count;
+	
+	std::shared_ptr<const Node> f_body_reduct = m_function_body->reduce(count);
 
 	if (m_function_body == f_body_reduct) {
 		return m_weak_this.lock();
@@ -107,8 +113,8 @@ std::unordered_set<std::string> Func::free_variables() const {
 	return vars;
 }
 
-bool Func::is_function() const {
-	return true;
+std::shared_ptr<const Func> Func::as_function() const {
+	return m_weak_this.lock();
 }
 
 std::string Func::to_string() const {

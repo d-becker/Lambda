@@ -28,7 +28,8 @@ Subs::raw_substitute(const std::string& orig_var_name,
 	}
 }
 
-std::shared_ptr<const Node> Subs::reduce() const {
+std::shared_ptr<const Node> Subs::reduce(long long& count) const {
+        --count;
 	return m_weak_this.lock();
 }
 
