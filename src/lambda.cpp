@@ -1,6 +1,7 @@
 #include "lambda.hpp"
 
 #include <sstream>
+#include <utility>
 
 #include "Parser.hpp"
 
@@ -20,12 +21,24 @@ lambda::lambda(const lambda& other)
 }
 
 lambda::lambda(lambda&& other)
-	: m_node(other.m_node),
+	: m_node(std::move(other.m_node)),
 	  m_max_calc_steps(other.m_max_calc_steps)
 {
 }
 
 lambda::~lambda() {
+}
+
+lambda& lambda::operator=(lambda other) {
+	using std::swap;
+	swap(*this, other);
+	return *this;
+}
+
+void lambda::swap(lambda& other) {
+	using std::swap;
+	swap(m_node, other.m_node);
+	swap(m_max_calc_steps, other.m_max_calc_steps);
 }
 
 long long lambda::get_max_calc_steps() const  {

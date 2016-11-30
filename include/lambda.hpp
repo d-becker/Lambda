@@ -14,14 +14,22 @@ public:
 
 	virtual ~lambda();
 
+	lambda& operator=(lambda other);
+	void swap(lambda& other);
+	
         long long get_max_calc_steps() const;
 	void set_max_calc_steps(long long max_calc_steps);
 	
 	void reduce();
 	std::string to_string() const;
-private:
+private:	
 	std::shared_ptr<const Node> m_node;
         long long m_max_calc_steps;
 };
+
+inline
+void swap(lambda& left, lambda& right) {
+	left.swap(right);
+}
 
 #endif // LAMBDA_HPP
