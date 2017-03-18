@@ -1,4 +1,5 @@
 #include "Subs.hpp"
+
 Subs::Subs(std::string label)
 	: m_label(label)
 {	
@@ -27,6 +28,7 @@ Subs::raw_substitute(const std::string& orig_var_name,
 		return m_weak_this.lock();
 	}
 }
+#include "ParserException.hpp"
 
 std::shared_ptr<const Node> Subs::reduce(long long& count) const {
         --count;
@@ -43,6 +45,10 @@ std::unordered_set<std::string> Subs::variables() const {
 
 std::unordered_set<std::string> Subs::free_variables() const {
 	return {m_label};
+}
+
+std::vector<std::size_t> Subs::get_tree_level_widths() const {
+	return {1};
 }
 
 std::string Subs::to_string() const {

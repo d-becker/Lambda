@@ -84,7 +84,8 @@ std::shared_ptr<const Node> Func::reduce(long long& count) const {
 		return m_weak_this.lock();
 	}
 	
-	std::shared_ptr<const Node> f_body_reduct = m_function_body->reduce(count);
+	std::shared_ptr<const Node> f_body_reduct
+		= m_function_body->reduce(count);
 
 	if (m_function_body == f_body_reduct) {
 		return m_weak_this.lock();
@@ -111,6 +112,13 @@ std::unordered_set<std::string> Func::free_variables() const {
         vars.erase(m_param_name);
 
 	return vars;
+}
+
+std::vector<std::size_t> Func::get_tree_level_widths() const {
+	std::vector<std::size_t> sub_vec(
+		get_function_body()->get_tree_level_widths());
+	sub_vec.emplace_back(1);
+	return sub_vec;
 }
 
 std::shared_ptr<const Func> Func::as_function() const {

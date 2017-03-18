@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <unordered_set>
+#include <vector>
 
 class Func;
 
@@ -16,8 +17,9 @@ class Func;
  *
  * To make this possible, the constructors of the classes are private and new
  * objects can be created using the static \c create method of the approproate
- * class, which returns an std::shared_ptr. Every object has a std::weak_ptr that
- * points to it so that it can always generate a valid std::shared_ptr to itself.
+ * class, which returns an std::shared_ptr. Every object has a std::weak_ptr
+ * that points to it so that it can always generate a valid std::shared_ptr to
+ * itself.
  */
 class Node {
 public:
@@ -46,13 +48,14 @@ public:
 	 * For more information, see
 	 * https://en.wikipedia.org/wiki/Lambda_calculus#Reduction_strategies.
 	 *
-	 * The maximal number of steps can be controlled with the parameter
-	 * \a count. Every call to this function (not only effective beta
+	 * The maximal number of steps can be controlled with the parameter \a
+	 * count. Every call to this function (not only effective beta
 	 * reductions) decrements \a count by one. When \a count becomes zero or
 	 * negative, no further reductions are performed and the expression is
-	 * returned as computed so far. Checking whether a reduction was complete
-	 * can be done by checking the variable passed to this function after the
-	 * call: a negative value means the reduction was not complete.
+	 * returned as computed so far. Checking whether a reduction was
+	 * complete can be done by checking the variable passed to this function
+	 * after the call: a negative value means the reduction was not
+	 * complete.
 	 *
 	 * \param count The maximal number of steps that will be performed
 	 *        during the reduction.
@@ -90,6 +93,16 @@ public:
 	 *         contained within this expression.
 	 */
 	virtual std::unordered_set<std::string> free_variables() const = 0;
+
+	/**
+	 * Returns a \c std::vector containing the overall width of the tree
+	 * at every level. The first element of the vector contains the width
+	 * of the lowest level (the level furthest from the root).
+	 *
+	 * \return A \c std::vector containing the overall width of the tree
+	 *         at every level.
+	 */
+	virtual std::vector<std::size_t> get_tree_level_widths() const = 0;
 
 	/**
 	 * If this is a lambda abstraction (function), returns a smart pointer

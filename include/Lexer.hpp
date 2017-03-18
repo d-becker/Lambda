@@ -2,8 +2,7 @@
 #define LEXER_HPP
 
 #include <iostream>
-
-#include <LinkedList.hpp>
+#include <list>
 
 #include "Token.hpp"
 
@@ -11,7 +10,7 @@ class Lexer {
 public:
 	Lexer(std::istream *input);
 
-	LinkedList<Token> tokenize();
+	std::list<Token> tokenize();
 private:
 	struct CheckToken;
 	
@@ -46,7 +45,7 @@ private:
 	std::size_t m_line;
 	std::size_t m_column;
 
-	LinkedList<Token> m_tokens;
+	std::list<Token> m_tokens;
 };
 
 #endif // LEXER_HPP

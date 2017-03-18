@@ -4,8 +4,8 @@
 
 #include "Appl.hpp"
 #include "Func.hpp"
-#include "Subs.hpp"
 #include "ParserException.hpp"
+#include "Subs.hpp"
 
 Parser::Parser(std::istream *input)
 	: m_tokens(Lexer(input).tokenize())
@@ -78,8 +78,8 @@ std::shared_ptr<const Node> Parser::parse_expression() {
 }
 
 std::shared_ptr<const Node> Parser::parse_application() {
-	//application -> OPEN_PAREN possible_ws expression WS expression
-	//possible_ws CLOSE_PAREN
+	// application -> OPEN_PAREN possible_ws expression WS expression
+	// possible_ws CLOSE_PAREN
 	assert_next_token_type(Token::OPEN_PAREN,
 			       "expected an opening parenthesis");
 

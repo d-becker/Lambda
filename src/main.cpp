@@ -13,6 +13,11 @@ using namespace std;
 
 int main() {
 	std::ifstream file("proba.txt");
+	if (!file.good()) {
+		cerr << "The file could not be opened." << endl;
+		exit(1);
+	}
+	
 	Parser p(&file);
 
         std::shared_ptr<const Node> tree = p.parse();
@@ -24,7 +29,17 @@ int main() {
 
 	long long count = 100;
 	std::shared_ptr<const Node> reduced_tree = tree->reduce(count);
-	cout << "The reduced tree: " << reduced_tree->to_string() << "." << endl;
+	cout << "The reduced tree: "
+	     << reduced_tree->to_string()
+	     << "." << endl;
+
+	std::vector<std::size_t> widths(tree->get_tree_level_widths());
+
+	for (std::size_t width : widths) {
+		cout << width << ", ";
+	}
+
+	cout << endl;
 
 	/*cout << "Free variables:" << endl;
 	std::unordered_set<std::string> free_vars = tree->free_variables();

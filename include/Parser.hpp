@@ -2,8 +2,7 @@
 #define PARSER_HPP
 
 #include <iostream>
-
-#include <LinkedList.hpp>
+#include <list>
 
 #include "Lexer.hpp"
 #include "Node.hpp"
@@ -26,7 +25,7 @@ private:
         std::shared_ptr<const Node> parse_function();
 	void parse_possible_ws();
 	
-	LinkedList<Token> m_tokens;
+	std::list<Token> m_tokens;
 };
 
 #endif // PARSER_HPP

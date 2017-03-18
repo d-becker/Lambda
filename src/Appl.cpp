@@ -74,7 +74,8 @@ std::shared_ptr<const Node> Appl::reduce(long long& count) const {
 	if (m_left_child == left_reduct) {
 		// It is not possible to reduce this \a Appl,
 		// reduce the right side.
-		std::shared_ptr<const Node> right_reduct = m_right_child->reduce(count);
+		std::shared_ptr<const Node> right_reduct
+			= m_right_child->reduce(count);
 		if (m_right_child == right_reduct) {
 			return m_weak_this.lock();
 		} else {
@@ -82,7 +83,8 @@ std::shared_ptr<const Node> Appl::reduce(long long& count) const {
 		}
 	} else {
 		// The left child has been reduced, start from the beginning.
-		std::shared_ptr<const Node> new_application = Appl::create(left_reduct, m_right_child);
+		std::shared_ptr<const Node> new_application
+			= Appl::create(left_reduct, m_right_child);
 		return new_application->reduce(count);
 	}
 }
@@ -114,6 +116,30 @@ std::unordered_set<std::string> Appl::free_variables() const {
 	vars_left.insert(vars_right.begin(), vars_right.end());
 
 	return vars_left;
+}
+
+std::vector<std::size_t> Appl::get_tree_level_widths() const {
+	std::vector<std::size_t> left_vec(
+		get_left_child()->get_tree_level_widths());
+	std::vector<std::size_t> right_vec(
+		get_right_child()->get_tree_level_widths());
+
+	std::vector<std::size_t>& longer = left_vec.size() >= right_vec.size() ?
+		left_vec : right_vec;
+	std::vector<std::size_t>& shorter = left_vec.size() < right_vec.size() ?
+		left_vec : right_vec;
+
+	for (auto longer_it = longer.rbegin(),
+		     shorter_it = shorter.rbegin();
+	     shorter_it != shorter.rend();
+	     ++longer_it, ++shorter_it)
+	{
+		*longer_it += *shorter_it;
+	}
+
+	longer.emplace_back(1);
+	
+	return longer;
 }
 
 std::string Appl::to_string() const {

@@ -4,8 +4,7 @@
 
 #include <functional>
 #include <sstream>
-
-#include <Vector.hpp>
+#include <vector>
 
 #include "LexerException.hpp"
 
@@ -25,10 +24,10 @@ struct Lexer::CheckToken {
         tokenize_type tokenize;
 
 	// The actual tokenizing functions collected. The order matters.
-	static const Vector<CheckToken> to_check;
+	static const std::vector<CheckToken> to_check;
 };
 
-/* static */ const Vector<Lexer::CheckToken> Lexer::CheckToken::to_check {
+/* static */ const std::vector<Lexer::CheckToken> Lexer::CheckToken::to_check {
         {&Lexer::is_lambda_begin, &Lexer::tokenize_lambda},
 	{&Lexer::is_dot_begin, &Lexer::tokenize_dot},
 	{&Lexer::is_open_paren_begin, &Lexer::tokenize_open_paren},
@@ -50,7 +49,7 @@ Lexer::Lexer(std::istream *input)
 	}
 }
 
-LinkedList<Token> Lexer::tokenize() {
+std::list<Token> Lexer::tokenize() {
 	std::string line;
 
 	while (getline(*m_input, line)) {		
@@ -141,7 +140,8 @@ void Lexer::tokenize_close_paren(std::string::const_iterator start,
 				 std::string::const_iterator end) {
 	if (end - start > 0) {
 		m_tokens.push_back(Token(Token::CLOSE_PAREN,
-					 Token::Position(m_line, m_column), ")"));
+					 Token::Position(m_line, m_column),
+					 ")"));
 		++m_column;
 	}
 }
